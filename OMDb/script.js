@@ -3,7 +3,7 @@ var del = $("#delete");
 var books = [];
 
 
-
+//dodavanje vo tabela - prikaz
 function addToTable(book) {
     $("#books").append(`
     <tr>
@@ -16,6 +16,7 @@ function addToTable(book) {
     `);
 }
 
+//sekoj book objekt od books array odnovo go prikazuvame vo tabela
 function updateTable() {
     $("#books tr:not(:first-child)").remove();
     for (var i = 0; i < books.length; i++) {
@@ -23,10 +24,12 @@ function updateTable() {
     }
 }
 
+//go zacuvuvame objektot books vo localStorage
 function saveChanges(){
     localStorage.setItem("books", JSON.stringify(books));
 }
 
+//event listener na click da prati povik do API da go zeme filmot
 button.click(() => {
     var search = $("#search").val();
     var apiKey = "e37257dd";
@@ -39,21 +42,21 @@ button.click(() => {
         updateTable();
     });
 });
-
+//kopceto za brisenje
 del.click(() => {
     $("#books tr").last().remove();
     books.pop();
     saveChanges();
 });
 
-//https://pastebin.com/bw6mnz5F
-
+//pri otvoranje na stranata proveri dali ima lokalno zacuvuvani knigi
 $(document).ready(function(){
     var booksString = localStorage.getItem("books");
     books = JSON.parse(booksString);
     updateTable();
 });
 
+//pri klik na enter da se pritisne kopceto za prakjanje povik
 $(document).keypress(function (e) {
     if (e.which == 13) {
         $("#button").click();
