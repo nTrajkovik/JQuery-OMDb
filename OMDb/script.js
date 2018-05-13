@@ -1,58 +1,80 @@
 var button = $("#button");
 var del = $("#delete");
-var books = [];
-
+var details = $("#movie-details");
+var movies = {};
+var apiKey = "e37257dd";
+var apiRoot = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 
 //dodavanje vo tabela - prikaz
-function addToTable(book) {
-    $("#books").append(`
+function addToTable(movie) {    
+    $("#movies").append(`
     <tr>
-    <td><img height="100px" src="${book.Poster}"/></td>
-        <td>${book.Title}<span>(${book.Year})</span></td>
-        <td>${book.Director}</td>
-        <td>${book.Genre}</td>
-        <td>${book.Country}</td>
+    <td><a onclick="showMovie('${movie.imdbID}')"><img height="100px" src="${movie.Poster}"/></a></td>
+    <td><a onclick="showMovie('${movie.imdbID}')">${movie.Title}<span>(${movie.Year})</span></a></td>
     </tr>
     `);
 }
 
-//sekoj book objekt od books array odnovo go prikazuvame vo tabela
+//sekoj movie objekt od movies array odnovo go prikazuvame vo tabela
 function updateTable() {
-    $("#books tr:not(:first-child)").remove();
-    for (var i = 0; i < books.length; i++) {
-        addToTable(books[i]);
+    $("#movies tr:not(:first-child)").remove();
+    for (id in movies) {
+        addToTable(movies[id]);
     }
 }
 
-//go zacuvuvame objektot books vo localStorage
-function saveChanges(){
-    localStorage.setItem("books", JSON.stringify(books));
+//go zacuvuvame objektot movies vo localStorage
+function saveChanges() {
+    // let res = "{";
+    // for(id in movies){
+    //     res += `'${id}':${JSON.stringify(movies[id])},`;
+    // }
+    // res = res.substring(0, res.length - 1)
+    // res += "}";
+    // console.log(res);
+    localStorage.setItem("movies", JSON.stringify(movies));
+}
+
+function showMovie(id){
+    console.log("REQUESTING FOR " + id);
+    $.get(`${apiRoot}i=${id}`, function(data, status){
+        console.log(data);
+        details.html(`
+            <img src="${data.Poster}"/>
+        `);
+    });
+}
+
+function pushMovies(arr) {
+    arr.forEach(a => {
+        let id = a["imdbID"];
+        movies[id] = Object.assign({}, a);
+    });
 }
 
 //event listener na click da prati povik do API da go zeme filmot
 button.click(() => {
     var search = $("#search").val();
-    var apiKey = "e37257dd";
-    var url = `http://www.omdbapi.com/?t=${search}&plot=full&apikey=${apiKey}`;
+    var url = `${apiRoot}s=${search}`;
     console.log(url);
     $.get(url, function (data) {
-        console.log(data);
-        books.push(data);
+        pushMovies(data.Search);
         saveChanges();
         updateTable();
     });
 });
 //kopceto za brisenje
 del.click(() => {
-    $("#books tr").last().remove();
-    books.pop();
+    $("#movies tr").last().remove();
+    movies.pop();
     saveChanges();
 });
 
 //pri otvoranje na stranata proveri dali ima lokalno zacuvuvani knigi
-$(document).ready(function(){
-    var booksString = localStorage.getItem("books");
-    books = JSON.parse(booksString);
+$(document).ready(function () {
+    var moviesString = localStorage.getItem("movies") || "{}";
+    movies = JSON.parse(moviesString);
+    movies = Object.values(movies).filter(movie => movie != null);
     updateTable();
 });
 

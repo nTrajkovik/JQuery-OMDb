@@ -13,22 +13,40 @@
             border-spacing: 10px;
             border-collapse: collapse;
         }
+
+        #nav {
+            clear: both;
+        }
+
+        #movies {
+            float: left;
+        }
+
+        #movie-details {
+            float: right;
+            display: inline-block;
+
+        }
     </style>
 </head>
 
 <body>
-    <input type="text" id="search" value="Batman">
-    <input id="button" type="button" value="Make AJAX call">
-    <input id="delete" type="button" value="Delete Last">
-    <table border="1" id="books">
-        <tr>
-            <th>Poster</th>
-            <th>Title</th>
-            <th>Director</th>
-            <th>Genre</th>
-            <th>Country</th>
-        </tr>
-    </table>
+    <div id="nav">
+        <input type="text" id="search" value="Batman">
+        <input id="button" type="button" value="Make AJAX call">
+        <input id="delete" type="button" value="Delete Last">
+    </div>
+    <div id="movies">
+        <table border="1" id="movies">
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+            </tr>
+        </table>
+    </div>
+    <div id="movie-details">
+
+    </div>
     <script src="script.js"></script>
 </body>
 
