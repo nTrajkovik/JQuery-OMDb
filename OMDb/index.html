@@ -4,49 +4,43 @@
 <head>
     <meta charset=utf-8 />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <style>
-        td {
-            padding: 10px;
-        }
-
-        table {
-            border-spacing: 10px;
-            border-collapse: collapse;
-        }
-
-        #nav {
-            clear: both;
-        }
-
-        #movies {
-        }
-
-        #movie-details {
-            float: right;
-            display: inline-block;
-
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div id="nav">
-        <input type="text" id="search" value="Batman">
-        <input id="button" type="button" value="Make AJAX call">
-        <input id="delete" type="button" value="Delete Last">
-    </div>
-    <div id="movies">
-        <table border="1" id="movies">
-            <tr>
-                <th>Poster</th>
-                <th>Title</th>
-            </tr>
-        </table>
+    <div id="error"></div>
+    <div id="container">
+        <div id="nav">
+            <input type="text" id="search" value="Batman">
+            <input id="button" type="button" value="Make AJAX call">
+            <input id="delete" type="button" value="Delete Last">
+        </div>
+        <div id="movies">
+            <table border="1" id="movies">
+                <!-- <tr>
+                    <th>Poster</th>
+                    <th>Title</th>
+                </tr> -->
+            </table>
+        </div>
     </div>
     <div id="movie-details">
-
+        <button id="back">&#8678;</button>
+        <div id="details">
+            <div id="top">
+                <div id="img"></div>
+                <div id="info">
+                    <h2 id="title"></h2>
+                    <h5 id="director"></h5>
+                    <h5 id="production"></h5>
+                </div>
+            </div>
+            <div id="plot">
+                <p></p>
+            </div>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
